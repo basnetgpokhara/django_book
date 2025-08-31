@@ -1,0 +1,32 @@
+
+{% extends './base/base.html'%}
+{% block content %}    
+
+  <!--Recent Posts-->
+  <h3 class="text-muted" style ="letter-spacing: 2px;">Category: {{category.category_name}}</h3>
+  <main role="main" class="container p-0">
+    
+    <!--posts/ blogs by categories-->
+<h2 class="mt-5 mb-4">Post by Categories</h2>
+          
+          <div class="row">
+            {% for i in category_posts %}
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <img src="{{i.blog_image.url}}" height="300" width="300" class="card-img-top" alt="Blog">
+                <div class="card-body">
+                  <a href="#"><h5 class="card-title">{{i.title}}</h5></a>
+                  <span class="badge bg-primary mb-3">By: {{i.author}} | At: {{i.created_at}} </span>
+                  <p class="card-text">{{i.short_description | truncatewords:8}}</p>
+                  <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                </div>
+              </div>
+            </div>
+           {% endfor %}
+          </div>
+        <!--End Post by categories-->
+
+  </main><!-- /.container -->
+
+</div>
+{% endblock %}

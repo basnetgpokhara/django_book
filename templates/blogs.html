@@ -1,0 +1,121 @@
+{% extends './base/base.html' %}
+
+{% block content %}
+<!-- Page content-->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-1">{{single_post.title}}</h1>
+                    <!-- Post meta content-->
+                    <div class="text-muted fst-italic mb-2">Posted on {{single_post.created_at}} by {{single_post.author}}</div>
+                    <!-- Post category-->
+                    <a class="badge bg-primary text-decoration-none text-light "href="#!">{{single_post.category}}</a>
+                </header>
+                <!-- Preview image figure-->
+                <figure class="mb-4"><img class="img-fluid rounded" src="{{single_post.blog_image.url}}" alt="..." /></figure>
+                <!-- Post content-->
+                <section class="mb-5">
+                    <p class="fs-5 mb-4">{{single_post.short_description}}</p>
+                </section>
+                <section class="mb-5">
+                    <p class="fs-5 mb-4">{{single_post.blog_body}}</p>
+                    <!--Comment Inserted-->
+                    <h5> Comments({{comment_count}})</h5>
+                    {% if comments %}
+                        {% for comment in comments %}
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text mb-0">  {{comment}}</p>
+                                <span>
+                                    <small>By: {{comment.user}}</small>
+                                    <small>{{comment.created_at}}</small>
+                                </span>
+                            </div>
+                        </div>
+                      
+                        {% endfor %}
+                    {% else %}
+                    No Comments
+                    {% endif %}
+                <!--Comment Ended-->
+                <!--Comment Form Creation-->
+                <div class="form-group">
+                    {% if user.is_authenticated %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea name="comment" class="form-control" placeholder=" Write your comment here..."></textarea>
+                            <input type="submit" class="btn btn-primary mt-2">
+                        </div>
+                    </form>
+                    {% else %}
+                    <p class="text-muted"> Please <span><a href="{% url 'login'%}">Login</a></span> for Comment!</p>
+                    {% endif %}
+                </div>
+
+                </section>
+            </article>
+                {% if single_post.pdf_file %}
+                <hr>
+                <h4>Download {{single_post.title}} Book</h4>
+
+                <!-- Inline viewer (simple and works in most browsers) 
+                <div style="border:1px solid #e5e7eb; border-radius:8px; overflow:hidden; margin-bottom:1rem;">
+                    <iframe
+                    src="{{ single_post.pdf_file.url }}#toolbar=1&navpanes=0&scrollbar=1"
+                    width="100%"
+                    height="600"
+                    style="display:block; border:0;">
+                    </iframe>
+                </div>-->
+
+                <!-- Download / open in new tab -->
+                <a href="{{ single_post.pdf_file.url }}" target="_blank" rel="noopener"
+                    class="btn btn-primary" style="text-align: center;">
+                    Download 
+                </a>
+                {% endif %}
+        </div>
+    
+
+        <!-- Side widgets-->
+        <div class="col-lg-4">
+            <!-- Search widget-->
+             <!--<div class="card mb-4">
+                <div class="card-header">Search</div>
+                <div class="card-body">
+                <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                        <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                    </div>
+                </div>
+            </div>>-->
+            
+            <!-- Categories widget-->
+            <div class="card mb-4 p-3">
+                <h4 class="font-italic">Categories</h4>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <ul class="list-unstyled mb-0">
+                                {% for cat in categories%} 
+                            <!--<li><a href="{% url 'posts_by_category' cat.id %}">{{cat.category_name}}</a></li>-->
+                                <ul></ul><a href="{% url 'posts_by_category' cat.id %}" >{{cat.category_name}}</a></ul>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Side widget-->
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

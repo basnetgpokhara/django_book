@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <div class="row">
+       
+  
+        
+
+    <!--load left side bar-->
+    {% include './leftsidebar.html' %}
+    {% load crispy_forms_tags %}
+    <!--right side bar -->
+    <div class="col-md-10">
+        <h5> Add Category</h5>
+        <form action="" method="POST" style="margin:auto;">
+            {% csrf_token %}
+            {{form | crispy}}
+
+            <button type="submit" class="btn btn-primary text-light float-right mb-2">Save</button>
+       
+        </form>
+      
+    </div>
+    
+
+    </div>
+  
+    <!--django success message-->
+        
+
+
+{% endblock %}
+
